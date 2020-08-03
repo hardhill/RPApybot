@@ -1,0 +1,1 @@
+DIROUTDATA = "c:\\data\\outdata"
