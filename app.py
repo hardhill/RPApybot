@@ -6,7 +6,9 @@ class Application(object):
         print("============= RPA bot ====================")
         self.bot = telebot.TeleBot("1333442954:AAEA2Zn5jkvRc3ag6Cv8qdJyX2Bo8G3Fb68")
         self.log = Logf()
-        self.htmls = OutData()
+        # вернуть список файлов готовых для отправки
+        self._htmls = OutData().ListData()
+
 
     def Start(self):
         self.me = self.bot.get_me()
@@ -18,14 +20,26 @@ class Application(object):
             print("Бот не инициализировался. Завершаю программу")
             return False
     def SendMessage(self):
-        print("Посылаю сообщение...")
-        m = self.bot.send_message("-443484708","<b>Hello from python bot</b>",parse_mode="html")
-        if len(m)>0:
-            pass
+        err = 0
+        if len(self._htmls) < 1:
+            return False
+        for data in self._htmls:
+            print("Посылаю сообщение...")
+            try:
+                m = self.bot.send_message("-443484708", data, parse_mode="html")
+            except Exception as er:
+                err += 1
+        if err > 0:
+            return False
+
+        return True
 
 
 if __name__ == '__main__':
     app = Application()
     if not app.Start():
         exit(1)
-   # app.SendMessage()
+    if app.SendMessage():
+        print("Все сообщения посланы")
+    else:
+        print("Посылать пока нечего")
