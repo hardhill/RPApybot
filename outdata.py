@@ -1,4 +1,5 @@
 import os
+import json
 from params import *
 class OutData:
     def __init__(self):
@@ -10,14 +11,15 @@ class OutData:
                 pass
         #считать все файлы заданной директории
         files = os.listdir(DIROUTDATA)
-        htmls = filter(lambda x: x.endswith(".html"), files)
+        files = filter(lambda x: x.endswith(".json"), files)
         self.data = []
-        for html in htmls:
-            with open(DIROUTDATA + "\\" + html, 'r', encoding="utf8") as file:
-                data = file.read()
+        for onefile in files:
+            with open(DIROUTDATA + "\\" + onefile, 'r') as file:
+                data = json.load(file)
                 self.data.append(data)
             try:
-                os.remove(DIROUTDATA + "\\" + html)
+                pass
+                #os.remove(DIROUTDATA + "\\" + onefile)
             except:
                 pass
 
